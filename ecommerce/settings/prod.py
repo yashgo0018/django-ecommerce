@@ -5,7 +5,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost:8000', 'python-ecom-app.herokuapp.com']
+ALLOWED_HOSTS = ['localhost:5000', 'python-ecom-app.herokuapp.com']
 
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
