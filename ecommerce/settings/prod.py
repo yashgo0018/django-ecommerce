@@ -3,8 +3,6 @@ from google.oauth2 import service_account
 
 from .base import *
 
-DEBUG = True
-
 ALLOWED_HOSTS = ['localhost', 'python-ecom-app.herokuapp.com']
 
 prod_db = dj_database_url.config(conn_max_age=500)
