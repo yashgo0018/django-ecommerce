@@ -1,6 +1,8 @@
 from django import forms
 from django.urls import resolve
-from django.conf.settings.currency import symbol
+from django.conf import settings
+
+symbol = settings.currency.symbol
 
 
 class FilterForm(forms.Form):
