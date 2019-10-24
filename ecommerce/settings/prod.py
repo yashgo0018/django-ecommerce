@@ -5,25 +5,24 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost:5000', 'python-ecom-app.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'python-ecom-app.herokuapp.com']
 
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES = {
     'default': prod_db
 }
 
-MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware',
+              'django.middleware.security.SecurityMiddleware',
+              'django.contrib.sessions.middleware.SessionMiddleware',
+              'django.middleware.common.CommonMiddleware',
+              'django.middleware.csrf.CsrfViewMiddleware',
+              'django.contrib.auth.middleware.AuthenticationMiddleware',
+              'django.contrib.messages.middleware.MessageMiddleware',
+              'django.middleware.clickjacking.XFrameOptionsMiddleware',
+              ]
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Add Your Razorpay keys
 RAZORPAY_KEY_ID = 'rzp_test_Xs4cMHfADoX6DU'
