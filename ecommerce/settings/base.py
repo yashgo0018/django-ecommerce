@@ -112,3 +112,8 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static_root', 'media')
+
+currency = {
+    'code': 'INR',
+    'symbol': '₹'
+}
