@@ -1,0 +1,102 @@
+{% url 'products:list' as product_url %}
+{% url 'products:featured' as featured_url %}
+{% url 'login' as login_url %}
+{% url 'logout' as logout_url %}
+{% url 'register' as register_url %}
+{% url 'cart' as cart_url %}
+{% url 'users:orders' as orders_url %}
+{% url 'users:security' as security_url %}
+{% url 'users:address' as address_url %}
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
+	<a class="navbar-brand" href="{{ product_url }}">eCommerce</a>
+	<button
+		class="navbar-toggler"
+		type="button"
+		data-toggle="collapse"
+		data-target="#navbarSupportedContent"
+		aria-controls="navbarSupportedContent"
+		aria-expanded="false"
+		aria-label="Toggle navigation"
+	>
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li
+				class="nav-item {% if request.path == product_url %} active {% endif %}"
+			>
+				<a class="nav-link" href="{{ product_url }}">Home</a>
+			</li>
+			<li
+				class="nav-item {% if request.path == featured_url %} active {% endif %}"
+			>
+				<a class="nav-link" href="{{ featured_url }}">Featured</a>
+			</li>
+			{% if not request.user.is_authenticated %}
+				<li class="nav-item {% if request.path == login_url %} active {% endif %}">
+					<a class="nav-link" href="{% url 'login' %}">Login</a>
+				</li>
+				<li
+					class="nav-item {% if request.path == register_url %} active {% endif %}"
+				>
+					<a class="nav-link" href="{{ register_url }}">Register</a>
+				</li>
+			{% else %}
+				<li
+					class="nav-item {% if request.path == logout_url %} active {% endif %}"
+				>
+					<a class="nav-link" href="{{ logout_url }}">Logout</a>
+				</li>
+			{% endif %}
+			<li class="nav-item {% if request.path == cart_url %} active {% endif %}">
+				<a class="nav-link" href="{{ cart_url }}">
+					<i class="fa fa-cart-plus" style="color: red;"></i>
+					{% if cart_item_count %}
+						<sup><span style="
+								background-color: yellow;
+								border-radius: 50%;
+								padding:0px 4px;
+								color: red;">
+								{{ cart_item_count }}
+						</span></sup>
+					{% endif %}
+				</a>
+			</li>
+			{% if request.user.is_authenticated %}
+				<li class="nav-item dropdown">
+					<a
+						class="nav-link dropdown-toggle"
+						href="#"
+						id="navbarDropdown"
+						role="button"
+						data-toggle="dropdown"
+						aria-haspopup="true"
+						aria-expanded="false"
+					>
+						Hi, {{ request.user.get_short_name }}
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{{ orders_url }}">Your Orders</a>
+						<a class="dropdown-item" href="{{ security_url }}"
+							>Login and Security</a
+						>
+						<!--<div class="dropdown-divider"></div>-->
+						<a class="dropdown-item" href="{{ address_url }}">Your Address</a>
+					</div>
+				</li>
+			{% endif %}
+		</ul>
+		{% if search %}
+			<form class="form-inline my-2 my-lg-0" method="POST">
+				{% csrf_token %}
+				{{ search }}
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+					Search
+				</button>
+			</form>
+		{% endif %}
+	</div>
+</nav>
+<br /><br />

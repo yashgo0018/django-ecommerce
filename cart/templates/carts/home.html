@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-warning pb-2">Shopping Cart</h2>
+    {% if cart.products.all.count > 0 %}
+    <table align='center' class='table table-striped'>
+        <tr>
+            <th>#</th>
+            <th>Product Name</th>
+            <th></th>
+            <th>Price</th>
+        </tr>
+        {% for product in cart.products.all %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                {{ product.title }}
+                </td>
+            <td>
+                <form method="POST" action="/cart/">
+                    {% csrf_token %}
+					<input type="hidden" name="type" value="remove">
+					<input type="hidden" name="id" value="{{ product.id }}">
+					<input type="submit" value="Remove From Cart" class="btn btn-danger">
+				</form>
+            </td>
+            <td>{{currency_symbol}}{{ product.price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="3">Total</th>
+            <th>{{currency_symbol}}{{ cart.total }}</th>
+        </tr>
+    </table>
+    <a href="{% url 'profiles' %}" class="btn btn-success">Proceed to Checkout</a>
+    {% else %}
+    <br>
+    <h2 class="text-center text-warning">No Products In Cart!!! <br> <a class="btn btn-warning text-white" href="{% url 'index' %}">Continue Shopping</a></h2>
+    {% endif %}
+</div>
+{% endblock %}

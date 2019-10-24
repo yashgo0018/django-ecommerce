@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			rel="shortcut icon"
+			type="image/png"
+			href="{% static 'favicon.ico' %}"
+		/>
+		<style>
+			html {
+				position: relative;
+			}
+		</style>
+		{% include "base/css.html" %} {% block head %}{% endblock %}
+	</head>
+	<body>
+		{% include "base/navbar.html" %}
+		<br />
+		<div id="content">
+			{% block content %}{% endblock %}
+			<br />
+		</div>
+		{% include "base/footer.html" %} {% include "base/js.html" %}
+	</body>
+</html>

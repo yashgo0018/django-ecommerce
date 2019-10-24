@@ -1,0 +1,8 @@
+<div class="card my-1 mx-1" style="width: 17rem;">
+    <img class="card-img-top" src="{{ instance.image.url }}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{ instance.title }}</h5>
+      <p class="card-text">{{ instance.description|truncatewords:20 }}</p>
+      {{currency_symbol}}{{ instance.price }} <a href="{{ instance.get_absolute_url }}" class="btn btn-primary">Check it out</a>
+    </div>
+</div>
