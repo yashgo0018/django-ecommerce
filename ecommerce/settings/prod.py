@@ -3,7 +3,7 @@ from google.oauth2 import service_account
 
 from .base import *
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost:5000', 'python-ecom-app.herokuapp.com']
 
