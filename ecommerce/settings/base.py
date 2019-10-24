@@ -7,13 +7,6 @@ SECRET_KEY = 'ks2zg!5l!0w#qwwp_=l*q*vio-!yxioq6n#qo_pzo5to77f2n-'
 
 DEBUG = int(os.environ.get('DEBUG', default=1))
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 
 ALLOWED_HOSTS = []
 
