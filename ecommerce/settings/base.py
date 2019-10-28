@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 SECRET_KEY = 'ks2zg!5l!0w#qwwp_=l*q*vio-!yxioq6n#qo_pzo5to77f2n-'
 
 
-DEBUG = False if os.environ.get('PRODUCTION') == '1' else True
+DEBUG = True  # False if os.environ.get('PRODUCTION') == '1' else True
 
 
 ALLOWED_HOSTS = []
