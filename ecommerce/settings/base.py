@@ -6,10 +6,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 SECRET_KEY = 'ks2zg!5l!0w#qwwp_=l*q*vio-!yxioq6n#qo_pzo5to77f2n-'
 
 
-DEBUG = True  # False if os.environ.get('PRODUCTION') == '1' else True
+DEBUG = False if os.environ.get('PRODUCTION') == '1' else True
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'python-ecom-app.herokuapp.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
