@@ -1,5 +1,5 @@
 from .base import *
-
+import dj_database_url
 
 # Add Your Razorpay keys
 RAZORPAY_KEY_ID = 'rzp_test_Xs4cMHfADoX6DU'
