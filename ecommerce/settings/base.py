@@ -6,10 +6,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 SECRET_KEY = 'ks2zg!5l!0w#qwwp_=l*q*vio-!yxioq6n#qo_pzo5to77f2n-'
 
 
-DEBUG = False if os.environ.get('PRODUCTION') == '1' else True
+DEBUG = False  # if os.environ.get('PRODUCTION') == '1' else True
 
 
-ALLOWED_HOSTS = ['localhost', 'python-ecom-app.herokuapp.com']
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -30,6 +30,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken'
 ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
 MIDDLEWARE = [
@@ -106,6 +113,21 @@ REST_FRAMEWORK = {
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'project_static'),
 ]
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
+MANAGERS = (
+    ('yashgo0018@gmail.com', 'Yash Goyal'),
+)
+
+ADMINS = (
+    ('yashgo0018@gmail.com', 'Yash Goyal'),
+)
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
