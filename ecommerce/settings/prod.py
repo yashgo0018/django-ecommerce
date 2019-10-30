@@ -2,6 +2,7 @@
 import dj_database_url
 from .base import *
 
+ALLOWED_HOSTS = ['python-ecom-app.herokuapp.com']
 DATABASES['default'] = {
     'ENGINE': 'django.db.backends.postgresql_psycopg2'
 }
