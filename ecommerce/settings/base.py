@@ -3,11 +3,9 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))))
 
-SECRET_KEY = 'ks2zg!5l!0w#qwwp_=l*q*vio-!yxioq6n#qo_pzo5to77f2n-'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-
-DEBUG = False  # if os.environ.get('PRODUCTION') == '1' else True
-
+DEBUG = False if os.environ.get('PRODUCTION') == '1' else True
 
 ALLOWED_HOSTS = ['localhost', 'python-ecom-app.herokuapp.com']
 
@@ -111,11 +109,10 @@ REST_FRAMEWORK = {
     ]
 }
 
-SEND_GRID_API_KEY = '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'
+SEND_GRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'  # 'yashgoyal'  # 'django-ecom'
-# os.environ.get('SENDGRID_API_KEY')
-EMAIL_HOST_PASSWORD = SEND_GRID_API_KEY  # 'y@ash123'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = SEND_GRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'yashgo0018@gmail.com'
