@@ -111,9 +111,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'project_static'),
-]
 SEND_GRID_API_KEY = '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'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'  # 'yashgoyal'  # 'django-ecom'
@@ -133,11 +130,15 @@ ADMINS = (
     ('yashgo0018@gmail.com', 'Yash Goyal'),
 )
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'project_static'),
+]
+
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static_root', 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'media')
 
 CURRENCY = {
     'code': 'INR',
