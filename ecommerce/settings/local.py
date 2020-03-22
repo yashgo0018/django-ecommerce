@@ -1,5 +1,6 @@
 from .base import *
+import os
 
 # Add Your Razorpay keys
-RAZORPAY_KEY_ID = 'rzp_test_Xs4cMHfADoX6DU'
-RAZORPAY_KEY_SECRET = 'MzgRhzXb5bVJYqUPVHAdEOhR'
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET')
