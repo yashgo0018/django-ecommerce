@@ -1,6 +1,8 @@
 import dj_database_url
 from .base import *
 
+DEBUG = False
+
 STATICFILES_STORAGE = 'ecommerce.storage.WhiteNoiseStaticFilesStorage'
 
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
