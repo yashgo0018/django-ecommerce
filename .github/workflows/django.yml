@@ -20,8 +20,6 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-        env:
-          SECRET_KEY: "ks2zg!5l!0w#qwwp_=l*q*vio-!yxioq6n#qo_pzo5to77f2n-"
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
