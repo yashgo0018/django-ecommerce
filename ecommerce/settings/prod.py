@@ -2,7 +2,7 @@ import dj_database_url
 import django_heroku
 from .base import *
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'my_project.storage.WhiteNoiseStaticFilesStorage'
 
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
