@@ -26,6 +26,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.5.0
 PyJWT==1.7.1
+python-dotenv==0.12.0
 pytz==2019.3
 razorpay==1.2.0
 requests==2.23.0
