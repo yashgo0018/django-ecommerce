@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 SECRET_KEY = os.environ.get(
     'SECRET_KEY', 'ks2zg!5l!0w#qwwp_=l*q*vio-!yxioq6n#qo_pzo5to77f2n-')
 
-DEBUG = False if os.environ.get('PRODUCTION') == '1' else True
+DEBUG = True  # False if os.environ.get('PRODUCTION') == '1' else True
 
 ALLOWED_HOSTS = ['localhost', 'python-ecom-app.herokuapp.com']
 
@@ -138,7 +138,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+
 CURRENCY = {
     'code': 'INR',
     'symbol': '₹'
