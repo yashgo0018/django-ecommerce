@@ -11,15 +11,15 @@ DEBUG = True  # False if os.environ.get('PRODUCTION') == '1' else True
 ALLOWED_HOSTS = ['localhost', 'python-ecom-app.herokuapp.com']
 
 INSTALLED_APPS = [
+    # in-build apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 
-    # User Made App
+    # custom apps
     'accounts',
     'billing',
     'products',
@@ -28,8 +28,10 @@ INSTALLED_APPS = [
     'users',
     'errors',
 
+    # installed apps
     'rest_framework',
     'rest_framework.authtoken'
+    'corsherders'
 ]
 
 DATABASES = {
@@ -42,6 +44,7 @@ DATABASES = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -103,6 +106,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# Rest Framework Settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
@@ -112,6 +117,8 @@ REST_FRAMEWORK = {
     ]
 }
 
+
+# Email Settings
 SEND_GRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
@@ -130,6 +137,7 @@ ADMINS = (
     ('yashgo0018@gmail.com', 'Yash Goyal'),
 )
 
+# Static File Settings
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'project_static'),
 ]
@@ -139,6 +147,8 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+
+# Razorpay Settings
 CURRENCY = {
     'code': 'INR',
     'symbol': '₹'
@@ -147,6 +157,8 @@ CURRENCY = {
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')
 RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET')
 
+
+# This will Help django To Log To Console
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -181,3 +193,6 @@ LOGGING = {
 }
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
+
+# CORS Settings
+CORS_ORIGIN_ALLOW_ALL = True
