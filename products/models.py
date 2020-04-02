@@ -21,7 +21,7 @@ def upload_name_path(instance, filename):
     folderName = randint(1, 40000000)
     filenam = randint(1, folderName)
     ext = get_filename_ext(filename)[1]
-    return f'products/{folderName}/{filenam}{ext}'
+    return f'products/{folderName}/{filenam}.{ext}'
 
 
 class ProductManager(models.Manager):
