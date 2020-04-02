@@ -30,8 +30,9 @@ INSTALLED_APPS = [
 
     # installed apps
     'rest_framework',
-    'rest_framework.authtoken'
-    'corsherders'
+    'rest_framework.authtoken',
+    'corsheaders',
+    'ckeditor'
 ]
 
 DATABASES = {

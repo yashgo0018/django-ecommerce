@@ -71,7 +71,7 @@ class CheckoutView(LoginRequiredMixin, View):
 
         order = self.get_order(profile_id)
         payment_id = request.POST.get("razorpay_payment_id", None)
-
+        print(payment_id)
         if not payment_id:
             return redirect("cart")
 

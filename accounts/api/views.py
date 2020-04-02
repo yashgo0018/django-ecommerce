@@ -13,16 +13,16 @@ class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        fullname = request.POST.get("fullname")
-        phone = request.POST.get("phone")
+        email = request.data.get("email")
+        password = request.data.get("password")
+        fullname = request.data.get("fullname")
+        phone = request.data.get("phone")
         try:
             user = User.objects.create_user(
                 email=email, password=password, full_name=fullname, phone=phone)
             return Response(UserSerializer(user).data)
         except ValueError as err:
-            return Response({'error': err}, status=400)
+            return Response({'error': "Provide Invalid Details"}, status=400)
         except IntegrityError as err:
             return Response({'error': "User Already Exist"}, status=403)
 

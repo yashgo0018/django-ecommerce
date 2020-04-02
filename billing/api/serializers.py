@@ -1,8 +1,11 @@
 from rest_framework import serializers
 from billing.models import BillingProfile
+from accounts.api.serializers import UserSerializer
 
 
 class BillingProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
     class Meta:
         model = BillingProfile
         fields = ['id', 'user', 'name', 'email', 'address_line_1',

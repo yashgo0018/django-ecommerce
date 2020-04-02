@@ -35,12 +35,12 @@ class CheckoutView(APIView):
             return Response({'error': 'Cart Is Empty'}, status=400)
 
         return Response({
-            "order": OrderSerializer(self.get_order(profiles.first())).data,
+            "order": OrderSerializer(self.get_order(profiles.first()), context={'request': request}).data,
             "key_id": settings.RAZORPAY_KEY_ID
         })
 
     def post(self, request, *args, **kwargs):
-        profile_id = request.POST.get("profile_id")
+        profile_id = request.data.get("profile_id")
 
         if profile_id == None:
             return Response({'error': 'Profile Id Not Found'}, status=400)
@@ -51,7 +51,7 @@ class CheckoutView(APIView):
             return Response({'error': 'Profile Doesn\'t exist'}, status=400)
 
         order = self.get_order(profiles.first())
-        payment_id = request.POST.get("razorpay_payment_id", None)
+        payment_id = request.data.get("razorpay_payment_id", None)
 
         if not payment_id:
             return Response({'error': 'Payment ID Not Present'}, status=400)
@@ -63,7 +63,7 @@ class CheckoutView(APIView):
             done = order.mark_paid()
             if not done:
                 return Response({'error': 'Unable To mark Order Paid'}, status=500)
-        return Response(status=200)
+        return Response(OrderSerializer(order).data)
 
     def get_order(self, profile):
         order_obj = Order.objects.get_order(profile)
