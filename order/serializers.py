@@ -1,8 +1,10 @@
 from rest_framework import serializers
 from rest_framework.fields import IntegerField
-from order.models import Order
-from billing.api.serializers import BillingProfileSerializer
-from cart.api.serializers import CartSerializer
+
+from billing.serializers import BillingProfileSerializer
+from cart.serializers import CartSerializer
+
+from .models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):

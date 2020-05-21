@@ -1,33 +1,34 @@
-from django.contrib.auth import login, logout
-from django.shortcuts import redirect
-from django.views.generic import FormView
+from django.contrib.auth import get_user_model
+from django.db.utils import IntegrityError
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .forms import LoginForm, RegisterForm
+from .serializers import UserSerializer
 
-
-class LoginFormView(FormView):
-    template_name = 'accounts/login.html'
-    form_class = LoginForm
-
-    def get_success_url(self):
-        return self.request.GET.get('next') or self.request.POST.get('next') or '/'
-
-    def form_valid(self, form):
-        user = form.get_user()
-        login(self.request, user)
-        return super().form_valid(form)
+User = get_user_model()
 
 
-class RegisterFormView(FormView):
-    form_class = RegisterForm
-    template_name = 'accounts/register.html'
-    success_url = '/accounts/login'
+class RegisterView(APIView):
+    permission_classes = [AllowAny]
 
-    def form_valid(self, form):
-        form.register_user()
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        email = request.data.get("email")
+        password = request.data.get("password")
+        fullname = request.data.get("fullname")
+        phone = request.data.get("phone")
+        try:
+            user = User.objects.create_user(
+                email=email, password=password, full_name=fullname, phone=phone)
+            return Response(UserSerializer(user).data)
+        except ValueError as err:
+            return Response({'error': "Provide Invalid Details"}, status=400)
+        except IntegrityError as err:
+            return Response({'error': "User Already Exist"}, status=403)
 
 
-def logout_page(request):
-    logout(request)
-    return redirect('login')
+class GetUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return Response(UserSerializer(request.user).data)

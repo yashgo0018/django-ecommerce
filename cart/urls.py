@@ -1,9 +1,11 @@
 from django.urls import path
+from rest_framework import routers
 
-from .views import CheckoutView, ProfileSelectionView, CartView
+from .views import CartAPIView, CheckProductInCart
+
+router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('', CartView.as_view(), name='cart'),
-    path('checkout/', CheckoutView.as_view(), name='checkout'),
-    path('profiles/', ProfileSelectionView.as_view(), name='profiles'),
+    path('', CartAPIView.as_view()),
+    path('<product_id>/', CheckProductInCart.as_view()),
 ]

@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from products.models import Product, Tag
-from rest_framework.fields import Field, SerializerMethodField, ListField
+from rest_framework.fields import Field, ListField, SerializerMethodField
+
+from .models import Product, Tag
 
 
 class TagSerializer(serializers.ModelSerializer):

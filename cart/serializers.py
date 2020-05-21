@@ -1,8 +1,10 @@
 from rest_framework import serializers
 from rest_framework.fields import Field
-from cart.models import Cart, CartItem
-from products.api.serializers import ProductSerializer
-from accounts.api.serializers import UserSerializer
+
+from accounts.serializers import UserSerializer
+from products.serializers import ProductSerializer
+
+from .models import Cart, CartItem
 
 
 class CartItemSerializer(serializers.ModelSerializer):
