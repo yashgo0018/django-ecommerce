@@ -1,4 +1,8 @@
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 import razorpay
+import stripe
 from django.conf import settings
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -10,6 +14,8 @@ from order.models import Order
 from products.models import Product
 
 from .serializers import OrderSerializer
+
+stripe.api_key = settings.STRIPE_API_KEY
 
 razorpay_client = razorpay.Client(
     auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
@@ -34,9 +40,21 @@ class CheckoutView(APIView):
         if cart_obj.total_cart_products() == 0:
             return Response({'error': 'Cart Is Empty'}, status=400)
 
+        order_obj = self.get_order(profiles.first())
+
+        intent = stripe.PaymentIntent.create(
+            customer=profiles[0].stripe_customer_id,
+            amount=int(float(cart_obj.total) +
+                       float(order_obj.shipping_total)) * 100,
+            currency='inr',
+            description=f"Order Id {order_obj.order_id}",
+            # Verify your integration in this guide by including this parameter
+            metadata={'integration_check': 'accept_a_payment'},
+        )
+
         return Response({
-            "order": OrderSerializer(self.get_order(profiles.first()), context={'request': request}).data,
-            "key_id": settings.RAZORPAY_KEY_ID
+            "order": OrderSerializer(order_obj, context={'request': request}).data,
+            "secret": intent.client_secret
         })
 
     def post(self, request, *args, **kwargs):
@@ -68,3 +86,33 @@ class CheckoutView(APIView):
     def get_order(self, profile):
         order_obj = Order.objects.get_order(profile)
         return order_obj
+
+
+# Using Django
+@csrf_exempt
+def my_webhook_view(request):
+    payload = request.body
+    event = None
+    event = stripe.Event.construct_from(
+        json.loads(payload), stripe.api_key
+    )
+    try:
+        event = stripe.Event.construct_from(
+            json.loads(payload), stripe.api_key
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    # Handle the event
+    if event.type == 'payment_intent.succeeded':
+        payment_intent = event.data.object  # contains a stripe.PaymentIntent
+        desc = payment_intent.get('description', '')
+        if desc.startswith("Order Id"):
+            orderId = desc[9:]
+            order_obj: Order = Order.objects.filter(order_id=orderId).first()
+            order_obj.mark_paid()
+            print(order_obj.status)
+    else:
+        return HttpResponse(status=400)
+
+    return HttpResponse(status=200)

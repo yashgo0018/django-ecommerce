@@ -25,10 +25,9 @@ class CartManager(models.Manager):
 class Cart(models.Model):
     user = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, blank=True)
+    used = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    used = models.BooleanField(default=False)
 
     objects = CartManager()
 
@@ -38,9 +37,21 @@ class Cart(models.Model):
     @property
     def total(self):
         total = 0
-        for product in self.products.all():
-            total += float(product.price)
-        return str(total)[:(str(total).find('.')+3)]
+        for item in self.products.all():
+            total += int(item.quantity) * float(item.product.price)
+        return total
 
     def total_cart_products(self):
-        return self.products.count()
+        return sum(item.quantity for item in self.products.all())
+
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    cart = models.ForeignKey(
+        Cart, on_delete=models.CASCADE, related_name="products")
+
+    class Meta:
+        unique_together = (
+            ('product', 'cart')
+        )

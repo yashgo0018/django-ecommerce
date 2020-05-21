@@ -1,12 +1,20 @@
 from rest_framework import serializers
 from rest_framework.fields import Field
-from cart.models import Cart
+from cart.models import Cart, CartItem
 from products.api.serializers import ProductSerializer
 from accounts.api.serializers import UserSerializer
 
 
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+
+    class Meta:
+        model = CartItem
+        fields = ['id', 'product', 'quantity']
+
+
 class CartSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(read_only=True, many=True)
+    products = CartItemSerializer(read_only=True, many=True)
     user = UserSerializer(read_only=True)
 
     class Meta:
