@@ -1,8 +1,8 @@
 from django.db.utils import IntegrityError
 from rest_framework.generics import ListCreateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-
 from billing.models import BillingProfile
 
 from .serializers import BillingProfileSerializer
@@ -18,21 +18,35 @@ class BillingProfileAPIView(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         # Get The Request Data
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        address_line_1 = request.POST.get('address_line_1')
-        address_line_2 = request.POST.get('address_line_2')
-        city = request.POST.get('city')
-        state = request.POST.get('state')
-        country = request.POST.get('country')
-        pincode = request.POST.get('pincode')
-
+        name = request.data.get('name')
+        email = request.data.get('email')
+        address_line_1 = request.data.get('address_line_1')
+        address_line_2 = request.data.get('address_line_2')
+        city = request.data.get('city')
+        state = request.data.get('state')
+        country = request.data.get('country')
+        pincode = request.data.get('pincode')
         # Make The Profile And If Any required field is empty then return 400 error
         try:
-            profile = self.request.user.billingprofile_set.create(name=name, email=email, address_line_1=address_line_1,
-                                                                  address_line_2=address_line_2, city=city, state=state, country=country, pincode=pincode)
+            profile = self.request.user.billingprofile_set.create(
+                name=name,
+                email=email,
+                address_line_1=address_line_1,
+                address_line_2=address_line_2,
+                city=city,
+                state=state,
+                country_code=country,
+                pincode=pincode
+            )
         except IntegrityError as err:
             return Response({"error": "Insufficient Data"}, status=400)
-
+        stripe.customer.create(name=name, email=email, )
         # If Everything goes smooth then return the profile
         return Response(self.serializer_class(profile).data)
+
+
+class CountriesData(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, *args, **kwargs):
+        return Response(BillingProfile.CountriesChoises.choices)
