@@ -16,9 +16,6 @@ DATABASES = {
 SECRET_KEY = 'ly19&2+c#onohxpodxnrlpvx3#)wc_qw!nvnb0^)oe%_yj$vf4'
 ALLOWED_HOSTS = ['ecommerce.pythonanywhere.com']
 
-
-STATIC_URL = '/static/'
-
 MEDIA_ROOT = '/home/ecommerce/ecommerce/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/ecommerce/ecommerce/static'
