@@ -15,9 +15,10 @@ class ProductViewSet(ModelViewSet):
 
     def get_queryset(self):
         max_price = self.request.GET.get('max_price')
-        sort = self.request.GET.get('sort_by')
-        keyword = self.request.GET.get('search')
-        return Product.objects.filter_products(keyword, sort, max_price)
+        min_price = self.request.GET.get('min_price')
+        sort = self.request.GET.get('sort')
+        keyword = self.request.GET.get('keyword')
+        return Product.objects.filter_products(keyword, sort, min_price, max_price)
 
     def get_permissions(self):
         """

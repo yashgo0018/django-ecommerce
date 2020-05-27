@@ -28,7 +28,7 @@ class ProductManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset()
 
-    def filter_products(self, keyword, sort, max_price):
+    def filter_products(self, keyword, sort, min_price, max_price):
         qs = self.get_queryset().filter(active=True)
         if keyword:
             qs = qs.filter(
@@ -44,6 +44,9 @@ class ProductManager(models.Manager):
         if max_price:
             max_price = int(max_price)
             qs = qs.filter(price__lt=max_price)
+        if min_price:
+            min_price = int(min_price)
+            qs = qs.filter(price__gt=min_price)
         return qs
 
     def get_products(self):
