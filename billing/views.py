@@ -40,7 +40,6 @@ class BillingProfileAPIView(ListCreateAPIView):
             )
         except IntegrityError as err:
             return Response({"error": "Insufficient Data"}, status=400)
-        stripe.customer.create(name=name, email=email, )
         # If Everything goes smooth then return the profile
         return Response(self.serializer_class(profile).data)
 
