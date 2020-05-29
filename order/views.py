@@ -14,7 +14,7 @@ from cart.models import Cart
 from products.models import Product
 
 from .models import Order
-from .serializers import OrderSerializer
+from .serializers import DetailedOrderSerializer
 
 stripe.api_key = settings.STRIPE_API_KEY
 
@@ -36,12 +36,12 @@ class CheckoutView(APIView):
         if not profiles.count() == 1:
             return Response({'error': 'Profile Doesn\'t exist'}, status=400)
 
-        cart_obj, new_obj = Cart.objects.get_existing_or_new(request)
+        cart_obj, _ = Cart.objects.get_existing_or_new(request)
 
-        if cart_obj.total_cart_products() == 0:
+        if cart_obj.total_cart_products == 0:
             return Response({'error': 'Cart Is Empty'}, status=400)
 
-        order_obj = self.get_order(profiles.first())
+        order_obj = Order.objects.get_order(profiles.first())
 
         intent = stripe.PaymentIntent.create(
             customer=profiles[0].stripe_customer_id,
@@ -50,11 +50,12 @@ class CheckoutView(APIView):
             currency='inr',
             description=f"Order Id {order_obj.order_id}",
             # Verify your integration in this guide by including this parameter
-            metadata={'integration_check': 'accept_a_payment'},
+            metadata={'integration_check': 'accept_a_payment',
+                      'order_id': order_obj.order_id},
         )
 
         return Response({
-            "order": OrderSerializer(order_obj, context={'request': request}).data,
+            "order": DetailedOrderSerializer(order_obj, context={'request': request}).data,
             "secret": intent.client_secret
         })
 
@@ -69,24 +70,20 @@ class CheckoutView(APIView):
         if not profiles.count() == 1:
             return Response({'error': 'Profile Doesn\'t exist'}, status=400)
 
-        order = self.get_order(profiles.first())
+        order_obj = Order.objects.get_order(profiles.first())
         payment_id = request.data.get("razorpay_payment_id", None)
 
         if not payment_id:
             return Response({'error': 'Payment ID Not Present'}, status=400)
 
         razorpay_client.payment.capture(
-            payment_id, order.total_in_paise())
+            payment_id, order_obj.total_in_paise())
         data = razorpay_client.payment.fetch(payment_id)
         if data.get("status") == "captured":
-            done = order.mark_paid()
+            done = order_obj.mark_paid()
             if not done:
                 return Response({'error': 'Unable To mark Order Paid'}, status=500)
-        return Response(OrderSerializer(order).data)
-
-    def get_order(self, profile):
-        order_obj = Order.objects.get_order(profile)
-        return order_obj
+        return Response(DetailedOrderSerializer(order_obj).data)
 
 
 @csrf_exempt

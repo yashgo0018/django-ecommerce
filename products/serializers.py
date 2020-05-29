@@ -15,9 +15,5 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'url', 'image', 'title', 'slug',
-                  'featured', 'description', 'original_price', 'price', "tag_list"]  # , "get_related_products"]
-        lookup_field = 'slug'
-        extra_kwargs = {
-            'url': {'lookup_field': 'slug'}
-        }
+        fields = ['id', 'image', 'title', 'slug',
+                  'featured', 'description', 'original_price', 'price', "tag_list"]

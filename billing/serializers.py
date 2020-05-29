@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from accounts.serializers import UserSerializer
+from users.serializers import UserSerializer
 
 from .models import BillingProfile
 

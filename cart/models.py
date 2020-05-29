@@ -41,6 +41,15 @@ class Cart(models.Model):
             total += int(item.quantity) * float(item.product.price)
         return total
 
+    @property
+    def tax_total(self):
+        total = 0
+        for item in self.products.all():
+            total += int(item.quantity) * float(item.product.price) * \
+                float(item.product.tax) / 100
+        return total
+
+    @property
     def total_cart_products(self):
         return sum(item.quantity for item in self.products.all())
 

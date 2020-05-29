@@ -8,20 +8,35 @@ from .models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = [
+            'order_id',
+            'status',
+            'timestamp',
+            'shipping_total',
+            'cart_total',
+            'tax_total',
+            'total'
+        ]
+
+
+class DetailedOrderSerializer(serializers.ModelSerializer):
     billing_profile = BillingProfileSerializer()
     cart = CartSerializer()
 
     class Meta:
         model = Order
         fields = [
-            'id',
             'billing_profile',
             'order_id',
             'cart',
-            'active',
             'status',
             'timestamp',
             'shipping_total',
+            'cart_total',
+            'tax_total',
             'total',
             'total_in_paise',
         ]

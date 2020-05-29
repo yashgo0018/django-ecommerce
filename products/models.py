@@ -63,6 +63,7 @@ class Product(models.Model):
     original_price = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    tax = models.DecimalField(max_digits=4, decimal_places=2, default=18)
 
     objects = ProductManager()
 
@@ -76,17 +77,14 @@ class Product(models.Model):
         return reverse('products:detail', kwargs={'slug': self.slug})
 
     def get_related_products(self):
-        for i in self.tag_list.all():
-            try:
-                lookups |= Q(tag_list__title__icontains=i.title)
-            except:
-                lookups = Q(tag_list__title__icontains=i.title)
+        title_split = self.title.split(' ')
+        lookups = Q(title__icontains=title_split[0])
 
-        for i in self.title.split(' '):
-            try:
-                lookups |= Q(title__icontains=i)
-            except:
-                lookups = Q(title__icontains=i)
+        for i in title_split[1:]:
+            lookups |= Q(title__icontains=i)
+
+        for i in self.tag_list.all():
+            lookups |= Q(tag_list__title__icontains=i.title)
 
         related_products = Product.objects.filter(
             lookups).distinct().exclude(id=self.id)
