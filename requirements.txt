@@ -10,7 +10,7 @@ django-js-asset==1.2.2
 djangorestframework==3.11.0
 djangorestframework-simplejwt==4.4.0
 idna==2.9
-Pillow==7.0.0
+Pillow>=7.1.0
 protobuf==3.11.3
 pycodestyle==2.5.0
 PyJWT==1.7.1
