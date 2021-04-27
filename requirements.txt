@@ -7,7 +7,7 @@ Django==3.0.14
 django-ckeditor==5.9.0
 django-cors-headers==3.2.1
 django-js-asset==1.2.2
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangorestframework-simplejwt==4.4.0
 idna==2.9
 Pillow>=7.1.0
