@@ -26,7 +26,7 @@ class BillingProfileAPIView(ListCreateAPIView):
         state = request.data.get('state')
         country = request.data.get('country')
         pincode = request.data.get('pincode')
-        # Make The Profile And If Any required field is empty then return 400 error
+        # Make the user's profile and if any required field is empty then return error with status 400
         try:
             profile = self.request.user.billingprofile_set.create(
                 name=name,
